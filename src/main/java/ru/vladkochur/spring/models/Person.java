@@ -9,7 +9,7 @@ public class Person {
     @NotEmpty(message = "Это обязательное поле")
     @Size(min = 3, max = 100, message = "Имя должно быть минимум из 3 и максисум из 100 символов")
     private String name;
-    @Min(value = 1900, message = "Год рождения должен быть больше 1900")
+    @Min(value = 1901, message = "Год рождения должен быть больше 1900")
     private int yearOfBirth;
 
     public int getId() {
