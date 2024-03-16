@@ -23,7 +23,7 @@ public class Book {
     @NotEmpty(message = "Это обязательное поле")
     @Size(min = 3, max = 100, message = "Имя должно быть минимум из 3 и максисум из 100 символов")
     private String author;
-    @Column(name = "yearOfCreation")
+    @Column(name = "year_of_creation")
     @Min(value = 1600, message = "Год создания должен быть корректным")
     @Max(value = 2050, message = "Год создания должен быть корректным")
     private int yearOfCreation;

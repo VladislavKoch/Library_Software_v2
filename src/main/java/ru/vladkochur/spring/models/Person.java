@@ -17,7 +17,7 @@ public class Person {
     @Size(min = 3, max = 100, message = "Имя должно быть минимум из 3 и максисум из 100 символов")
     private String name;
 
-    @Column(name = "yearOfBirth")
+    @Column(name = "year_of_birth")
     @Min(value = 1901, message = "Год рождения должен быть больше 1900")
     private int yearOfBirth;
 
