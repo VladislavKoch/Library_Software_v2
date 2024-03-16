@@ -1,11 +1,13 @@
 package ru.vladkochur.spring.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.vladkochur.spring.models.Book;
 import ru.vladkochur.spring.models.Person;
 import ru.vladkochur.spring.repositories.BookRepository;
+
 import java.util.List;
 
 @Service
@@ -18,8 +20,12 @@ public class BookService {
         this.bookRepository = bookRepository;
     }
 
-    public List<Book> index() {
-        return bookRepository.findAll();
+    public List<Book> index(Integer page, Integer books_per_page) {
+        if (books_per_page == null) {
+            return bookRepository.findAll();
+        } else {
+            return bookRepository.findAll(PageRequest.of(page, books_per_page)).getContent();
+        }
     }
 
     public Book show(int id) {
@@ -49,7 +55,7 @@ public class BookService {
     @Transactional
     public void release(int id) {
         bookRepository.findById(id).ifPresent(book -> book.setOwner(null));
-        }
+    }
 
     @Transactional
     public void accept(int id, Person owner) {
