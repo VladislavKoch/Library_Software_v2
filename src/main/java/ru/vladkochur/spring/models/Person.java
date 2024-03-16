@@ -3,6 +3,7 @@ package ru.vladkochur.spring.models;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.util.List;
 
 @Entity
 @Table(name = "Person")
@@ -20,6 +21,17 @@ public class Person {
     @Column(name = "year_of_birth")
     @Min(value = 1901, message = "Год рождения должен быть больше 1900")
     private int yearOfBirth;
+
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.MERGE)
+    private List<Book> books;
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
+    }
 
     public int getId() {
         return id;

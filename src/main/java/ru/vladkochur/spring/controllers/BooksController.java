@@ -35,8 +35,8 @@ public class BooksController {
     public String show(@PathVariable("id") int id, Model model, @ModelAttribute("person") Person person) {
         Book book = bookService.show(id);
         model.addAttribute("book", book);
-        if (book.getOwnerId() != null) {
-            model.addAttribute("relatedPerson", peopleService.show(book.getOwnerId()));
+        if (book.getOwner() != null) {
+            model.addAttribute("relatedPerson", peopleService.show(book.getOwner().getId()));
         } else {
             model.addAttribute("people", peopleService.index());
         }
@@ -51,7 +51,7 @@ public class BooksController {
 
     @PatchMapping("/{id}/accept")
     public String accept(@PathVariable("id") int id, @ModelAttribute("person") Person person) {
-        bookService.accept(id, person.getId());
+        bookService.accept(id, person);
         return "redirect:/books";
     }
 

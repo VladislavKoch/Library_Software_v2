@@ -28,8 +28,10 @@ public class Book {
     @Max(value = 2050, message = "Год создания должен быть корректным")
     private int yearOfCreation;
 
-    @Column(name = "owner_id")
-    private Integer ownerId;
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "owner_id", referencedColumnName = "id")
+    private Person owner;
+
 
     public int getId() {
         return id;
@@ -63,16 +65,12 @@ public class Book {
         this.yearOfCreation = yearOfCreation;
     }
 
-    public Integer getOwnerId() {
-//        if(owner_id != null){
-//        return owner_id;} else {
-//            return 0;
-//        }
-        return ownerId;
+    public Person getOwner() {
+        return owner;
     }
 
-    public void setOwnerId(Integer ownerID) {
-        this.ownerId = ownerID;
+    public void setOwner(Person person) {
+        this.owner = person;
     }
 
     public Book() {
