@@ -2,12 +2,14 @@ package ru.vladkochur.spring.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.vladkochur.spring.models.Book;
 import ru.vladkochur.spring.models.Person;
 import ru.vladkochur.spring.repositories.BookRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -20,11 +22,20 @@ public class BookService {
         this.bookRepository = bookRepository;
     }
 
-    public List<Book> index(Integer page, Integer books_per_page) {
-        if (books_per_page == null) {
-            return bookRepository.findAll();
+    public List<Book> index(Integer page, Integer booksPerPage, boolean isSorted) {
+        boolean isPaginated = booksPerPage != null && (int) booksPerPage > 0 && (int) page >= 0;
+
+        if (isPaginated && isSorted) {
+            return bookRepository.findAll(PageRequest.of(page, booksPerPage, Sort.by("yearOfCreation"))).getContent();
+
+        } else if (isPaginated) {
+            return bookRepository.findAll(PageRequest.of(page, booksPerPage)).getContent();
+
+        } else if (isSorted) {
+            return bookRepository.findAll(Sort.by("yearOfCreation"));
+
         } else {
-            return bookRepository.findAll(PageRequest.of(page, books_per_page)).getContent();
+            return bookRepository.findAll();
         }
     }
 
@@ -60,5 +71,12 @@ public class BookService {
     @Transactional
     public void accept(int id, Person owner) {
         bookRepository.findById(id).ifPresent(book -> book.setOwner(owner));
+    }
+
+    public List<Book> search(String searchQuery) {
+        if (searchQuery.isEmpty()){
+            return null;
+        }
+            return bookRepository.findAllByTitleStartingWith(searchQuery).orElse(null);
     }
 }

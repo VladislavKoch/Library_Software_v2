@@ -33,6 +33,17 @@ public class Book {
     private Person owner;
 
 
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", author='" + author + '\'' +
+                ", yearOfCreation=" + yearOfCreation +
+                ", owner=" + owner +
+                '}';
+    }
+
     public int getId() {
         return id;
     }

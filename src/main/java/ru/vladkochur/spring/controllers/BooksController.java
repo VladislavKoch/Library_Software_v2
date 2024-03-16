@@ -9,7 +9,9 @@ import ru.vladkochur.spring.models.Book;
 import ru.vladkochur.spring.models.Person;
 import ru.vladkochur.spring.services.BookService;
 import ru.vladkochur.spring.services.PeopleService;
+
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("/books")
@@ -27,8 +29,9 @@ public class BooksController {
 
     @GetMapping()
     public String index(Model model, @RequestParam(name = "page", required = false) Integer page,
-                        @RequestParam(name = "books_per_page", required = false) Integer books_per_page) {
-        model.addAttribute("books", bookService.index(page, books_per_page));
+                        @RequestParam(name = "books_per_page", required = false) Integer booksPerPage,
+                        @RequestParam(name = "sort_by_year", required = false) boolean sortByYear) {
+        model.addAttribute("books", bookService.index(page, booksPerPage, sortByYear));
         return "books/index";
     }
 
@@ -90,5 +93,15 @@ public class BooksController {
     public String delete(@PathVariable("id") int id) {
         bookService.delete(id);
         return "redirect:/books";
+    }
+
+    @GetMapping("/search")
+    public String search(
+            @RequestParam(name = "search_query", required = false) String searchQuery,
+            Model model,
+            @ModelAttribute("book") Book book) {
+        model.addAttribute("books", bookService.search(searchQuery));
+        model.addAttribute("query", searchQuery);
+        return "books/search";
     }
 }
