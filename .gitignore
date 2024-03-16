@@ -6,6 +6,7 @@ target/
 ### Custom ###
 /.idea/
 /src/main/resources/database.properties
+/src/main/resources/hibernate.properties
 
 ### IntelliJ IDEA ###
 .idea/modules.xml
