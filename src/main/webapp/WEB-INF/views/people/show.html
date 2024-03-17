@@ -9,25 +9,26 @@
 <p th:text="${'Год рождения: ' + person.getYearOfBirth()}">VALUE</p>
 <br/><br/>
 
-<div th:if="${not #lists.isEmpty(relatedBooks)}">
+<div th:if="${not relatedBooks.isEmpty()}">
     <a>Взятые книги: </a>
     <div th:each="book : ${relatedBooks}">
-        <div th:if="${ not book.isOverdued()}">
-            <a th:href="@{/books/{id}(id=${book.getId()})}"
-               th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYearOfCreation()}">user</a>
-        </div>
+
         <div th:if="${ book.isOverdued()}">
             <a th:href="@{/books/{id}(id=${book.getId()})}"
                th:style="'color: red'"
                th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYearOfCreation()}">user</a>
         </div>
-
+        <div th:if="${ not book.isOverdued()}">
+            <a th:href="@{/books/{id}(id=${book.getId()})}"
+               th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYearOfCreation()}">user</a>
+        </div>
+    </div>
     </div>
 
-    <div th:if="${ #lists.isEmpty(relatedBooks) and #lists.isEmpty(relatedOverdueBooks)}">
+    <div th:if="${ relatedBooks.isEmpty() }">
         <a>Человек пока не взял ни одной книги</a>
     </div>
-</div>
+
 
 <br/><br/>
 <form th:method="GET" th:action="@{/people/{id}/edit(id=${person.getId()})}">

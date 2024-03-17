@@ -26,8 +26,7 @@ public class PersonValidator implements Validator {
     @Override
     public void validate(Object o, Errors errors) {
         Person person = (Person) o;
-
-        if (peopleService.show(person.getName()).isPresent()) {
+        if (peopleService.findOne(person.getName()).isPresent()) {
             errors.rejectValue("name", "", "Это имя уже используется");
         }
 

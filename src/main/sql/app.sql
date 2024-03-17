@@ -18,3 +18,5 @@ CREATE TABLE Book
 insert into Book(title, author, year_of_creation, owner_id, time_of_taking)  values ('Tak', 'Ya',2000,1, now() - INTERVAL '20 DAYS');
 insert into Book(title, author, year_of_creation, owner_id, time_of_taking)  values ('Ogo', 'Work',2024,1, now() - INTERVAL '9 DAYS');
 insert into Book(title, author, year_of_creation, owner_id, time_of_taking)  values ('Ogoo', 'Workk',2024,1, now() - INTERVAL '5 DAYS');
+
+select * from book;

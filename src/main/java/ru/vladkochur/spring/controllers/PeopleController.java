@@ -6,7 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.vladkochur.spring.models.Person;
-import ru.vladkochur.spring.services.BookService;
+import ru.vladkochur.spring.services.BooksService;
 import ru.vladkochur.spring.services.PeopleService;
 import ru.vladkochur.spring.util.PersonValidator;
 
@@ -16,13 +16,13 @@ import javax.validation.Valid;
 @RequestMapping("/people")
 public class PeopleController {
 
-    private final BookService bookService;
+    private final BooksService booksService;
     private final PeopleService peopleService;
     private final PersonValidator personValidator;
 
     @Autowired
-    public PeopleController(BookService bookService, PeopleService peopleService, PersonValidator personValidator) {
-        this.bookService = bookService;
+    public PeopleController(BooksService booksService, PeopleService peopleService, PersonValidator personValidator) {
+        this.booksService = booksService;
         this.peopleService = peopleService;
         this.personValidator = personValidator;
     }
@@ -30,14 +30,14 @@ public class PeopleController {
 
     @GetMapping()
     public String index(Model model) {
-        model.addAttribute("people", peopleService.index());
+        model.addAttribute("people", peopleService.findAll());
         return "people/index";
     }
 
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model) {
-        model.addAttribute("person", peopleService.show(id));
-        model.addAttribute("relatedBooks", bookService.getRelatedBooks(id));
+        model.addAttribute("person", peopleService.findOne(id));
+        model.addAttribute("relatedBooks", peopleService.getRelatedBooks(id));
         return "people/show";
     }
 
@@ -59,7 +59,7 @@ public class PeopleController {
 
     @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") int id) {
-        model.addAttribute("person", peopleService.show(id));
+        model.addAttribute("person", peopleService.findOne(id));
         return "people/edit";
     }
 
