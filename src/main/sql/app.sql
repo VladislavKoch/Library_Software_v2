@@ -15,8 +15,23 @@ CREATE TABLE Book
     time_of_taking timestamp
 );
 
-insert into Book(title, author, year_of_creation, owner_id, time_of_taking)  values ('Tak', 'Ya',2000,1, now() - INTERVAL '20 DAYS');
-insert into Book(title, author, year_of_creation, owner_id, time_of_taking)  values ('Ogo', 'Work',2024,1, now() - INTERVAL '9 DAYS');
-insert into Book(title, author, year_of_creation, owner_id, time_of_taking)  values ('Ogoo', 'Workk',2024,1, now() - INTERVAL '5 DAYS');
+
+insert into Person(name, year_of_birth) values ('Dmitriy',1990);
+insert into Person(name, year_of_birth) values ('Vladislav',1999);
+insert into Person(name, year_of_birth) values ('Anton',1955);
+
+insert into Book(title, author, year_of_creation, owner_id, time_of_taking) values ('The Great Gatsby', 'F. Scott Fitzgerald', 1925, 1, now() - INTERVAL '20 DAYS');
+insert into Book(title, author, year_of_creation, owner_id, time_of_taking) values ('To Kill a Mockingbird', 'Harper Lee', 1960, 1, now() - INTERVAL '9 DAYS');
+insert into Book(title, author, year_of_creation, owner_id, time_of_taking) values ('1984', 'George Orwell', 1949, 1, now() - INTERVAL '5 DAYS');
+insert into Book(title, author, year_of_creation, owner_id, time_of_taking) values ('Pride and Prejudice', 'Jane Austen', 1813, 2, now());
+insert into Book(title, author, year_of_creation, owner_id, time_of_taking) values ('The Catcher in the Rye', 'J.D. Salinger', 1951, 2, now()- INTERVAL '11 DAYS');
+insert into Book(title, author, year_of_creation) values ('Moby-Dick', 'Herman Melville', 1851);
+insert into Book(title, author, year_of_creation) values ('War and Peace', 'Leo Tolstoy', 1869);
+insert into Book(title, author, year_of_creation) values ('The Lord of the Rings', 'J.R.R. Tolkien', 1954);
+insert into Book(title, author, year_of_creation) values ('The Hobbit', 'J.R.R. Tolkien', 1937);
+insert into Book(title, author, year_of_creation) values ('Frankenstein', 'Mary Shelley', 1818);
+insert into Book(title, author, year_of_creation) values ('The Picture of Dorian Gray', 'Oscar Wilde', 1890);
+
 
 select * from book;
+select * from person;
