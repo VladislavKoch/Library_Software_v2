@@ -14,8 +14,23 @@
 
 <br/>
 <hr/>
-
+<br>
 <a href="/books/new">Добавить новую книгу</a>
+<br/><br/>
+<a href="/books?sort_by_year=true">Список книг с сортировкой по годам</a>
+<br/>
+<a href="/books?page=0&books_per_page=2">Список книг с пагинацией</a>
+<br/>
+<a href="/books?page=0&books_per_page=2&sort_by_year=true">Список книг с пагинацией и сортировкой по годам</a>
 
+
+<br/><br/>
+<form th:method="GET" th:action="@{/books/search}">
+    <input type="submit" value="Поиск"/>
+</form>
+<br/><br/>
+<form th:method="GET" th:action="@{/people}">
+    <input type="submit" value="Перейти к списку пользователей"/>
+</form>
 </body>
 </html>

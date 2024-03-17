@@ -39,5 +39,10 @@
 <form th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}">
     <input type="submit" value="Удалить"/>
 </form>
+<br>
+
+<form th:method="GET" th:action="@{/people}">
+    <input type="submit" value="Вернуться к списку пользователей"/>
+</form>
 </body>
 </html>
