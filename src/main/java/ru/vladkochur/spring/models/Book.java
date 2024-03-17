@@ -1,10 +1,13 @@
 package ru.vladkochur.spring.models;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.Date;
 
 @Entity
 @Table(name = "Book")
@@ -32,6 +35,28 @@ public class Book {
     @JoinColumn(name = "owner_id", referencedColumnName = "id")
     private Person owner;
 
+    @Column(name = "time_of_taking")
+    @Temporal( TemporalType.TIMESTAMP)
+    private Date timeOfTaking;
+
+    public boolean isOverdued() {
+        return isOverdued;
+    }
+
+    public void setOverdued(boolean overdued) {
+        isOverdued = overdued;
+    }
+
+    @Transient
+    private boolean isOverdued;
+
+    public Date getTimeOfTaking() {
+        return timeOfTaking;
+    }
+
+    public void setTimeOfTaking(Date timeOfTaking) {
+        this.timeOfTaking = timeOfTaking;
+    }
 
     @Override
     public String toString() {

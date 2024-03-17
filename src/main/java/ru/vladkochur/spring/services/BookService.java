@@ -9,11 +9,13 @@ import ru.vladkochur.spring.models.Book;
 import ru.vladkochur.spring.models.Person;
 import ru.vladkochur.spring.repositories.BookRepository;
 
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
-@Transactional(readOnly = true)
 public class BookService {
     private final BookRepository bookRepository;
 
@@ -22,6 +24,7 @@ public class BookService {
         this.bookRepository = bookRepository;
     }
 
+    @Transactional(readOnly = true)
     public List<Book> index(Integer page, Integer booksPerPage, boolean isSorted) {
         boolean isPaginated = booksPerPage != null && (int) booksPerPage > 0 && (int) page >= 0;
 
@@ -39,6 +42,7 @@ public class BookService {
         }
     }
 
+    @Transactional(readOnly = true)
     public Book show(int id) {
         return bookRepository.findById(id).orElse(null);
     }
@@ -48,8 +52,16 @@ public class BookService {
         bookRepository.save(book);
     }
 
+
+    @Transactional(readOnly = true)
     public List<Book> getRelatedBooks(int ownerId) {
-        return bookRepository.findAllByOwnerId(ownerId);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Calendar c = Calendar.getInstance();
+        c.setTime(new Date());
+        c.add(Calendar.DATE, -10);
+        return bookRepository.findAllByOwnerId(ownerId).stream().peek(book ->
+                        book.setOverdued(book.getTimeOfTaking().before(c.getTime())))
+                .collect(Collectors.toList());
     }
 
     @Transactional
@@ -65,18 +77,25 @@ public class BookService {
 
     @Transactional
     public void release(int id) {
-        bookRepository.findById(id).ifPresent(book -> book.setOwner(null));
+        bookRepository.findById(id).ifPresent(book -> {
+            book.setOwner(null);
+            book.setTimeOfTaking(null);
+        });
     }
 
     @Transactional
     public void accept(int id, Person owner) {
-        bookRepository.findById(id).ifPresent(book -> book.setOwner(owner));
+        bookRepository.findById(id).ifPresent(book -> {
+            book.setOwner(owner);
+            book.setTimeOfTaking(new Date());
+        });
     }
 
+    @Transactional(readOnly = true)
     public List<Book> search(String searchQuery) {
-        if (searchQuery.isEmpty()){
+        if (searchQuery.isEmpty()) {
             return null;
         }
-            return bookRepository.findAllByTitleStartingWith(searchQuery).orElse(null);
+        return bookRepository.findAllByTitleStartingWith(searchQuery).orElse(null);
     }
 }

@@ -10,12 +10,23 @@
 <br/><br/>
 
 <div th:if="${not #lists.isEmpty(relatedBooks)}">
-    <a >Взятые книги: </a><div th:each="book : ${relatedBooks}">
-        <a th:href="@{/books/{id}(id=${book.getId()})}"
-           th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYearOfCreation()}">user</a>
-    </div>    </div>
-<div th:if="${ #lists.isEmpty(relatedBooks)}">
-    <a>Человек пока не взял ни одной книги</a>
+    <a>Взятые книги: </a>
+    <div th:each="book : ${relatedBooks}">
+        <div th:if="${ not book.isOverdued()}">
+            <a th:href="@{/books/{id}(id=${book.getId()})}"
+               th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYearOfCreation()}">user</a>
+        </div>
+        <div th:if="${ book.isOverdued()}">
+            <a th:href="@{/books/{id}(id=${book.getId()})}"
+               th:style="'color: red'"
+               th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYearOfCreation()}">user</a>
+        </div>
+
+    </div>
+
+    <div th:if="${ #lists.isEmpty(relatedBooks) and #lists.isEmpty(relatedOverdueBooks)}">
+        <a>Человек пока не взял ни одной книги</a>
+    </div>
 </div>
 
 <br/><br/>

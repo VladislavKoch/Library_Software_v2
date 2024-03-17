@@ -50,13 +50,13 @@ public class BooksController {
     @PatchMapping("/{id}/release")
     public String release(@PathVariable("id") int id) {
         bookService.release(id);
-        return "redirect:/books";
+        return "redirect:/books/{id}";
     }
 
     @PatchMapping("/{id}/accept")
     public String accept(@PathVariable("id") int id, @ModelAttribute("person") Person person) {
         bookService.accept(id, person);
-        return "redirect:/books";
+        return "redirect:/books/{id}";
     }
 
     @GetMapping("/new")
@@ -86,7 +86,7 @@ public class BooksController {
             return "books/edit";
         }
         bookService.update(id, book);
-        return "redirect:/books";
+        return "redirect:/books/{id}";
     }
 
     @DeleteMapping("/{id}")
@@ -98,8 +98,7 @@ public class BooksController {
     @GetMapping("/search")
     public String search(
             @RequestParam(name = "search_query", required = false) String searchQuery,
-            Model model,
-            @ModelAttribute("book") Book book) {
+            Model model, @ModelAttribute("book") Book book) {
         model.addAttribute("books", bookService.search(searchQuery));
         model.addAttribute("query", searchQuery);
         return "books/search";
